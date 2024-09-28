@@ -27,4 +27,5 @@ def allTransactions():
     else:
         return jsonify({"error": "nameOrig is not valid"}), 400
 if __name__ == "__main__":
-    app.run(port=8080, debug=True)
+    # change host to own IP address
+    app.run(host='10.108.94.53', port=5000, debug=True, threaded=False)
