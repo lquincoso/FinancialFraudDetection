@@ -1,5 +1,5 @@
 from flask import Flask, jsonify, request
-
+from db import get_transaction_by_nameOrig
 app = Flask(__name__)
 
 # Sample route to check if the API is working
@@ -10,6 +10,7 @@ def home():
 # Example GET route
 @app.route('/api/data', methods=['GET'])
 def get_data():
+
     data = {
         "id": 1,
         "name": "Sample Data",
@@ -17,11 +18,13 @@ def get_data():
     }
     return jsonify(data)
 
-# Example POST route
-@app.route('/api/data', methods=['POST'])
-def create_data():
-    new_data = request.get_json()  # Get the data from the request body
-    return jsonify(new_data), 201  # Return the new data with a 201 status code
-
+@app.route('/api/transaction', methods=['GET'])
+def allTransactions():
+    nameOrig = request.args.get('nameOrig')
+    transaction = get_transaction_by_nameOrig(nameOrig)
+    if transaction:
+        return jsonify(transaction), 200
+    else:
+        return jsonify({"error": "nameOrig is not valid"}), 400
 if __name__ == "__main__":
     app.run(port=8080, debug=True)
