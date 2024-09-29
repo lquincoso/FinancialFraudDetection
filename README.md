@@ -1,5 +1,5 @@
 # Shellhacks - Team Cafecito-105 Fall 2024
-## Florida International Universty
+### Florida International Universty
 
 ## Project Title: Machine Learning Fraud Detection 
 
