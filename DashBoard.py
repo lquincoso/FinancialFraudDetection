@@ -10,14 +10,12 @@ import mysql.connector
 
 st.title("Financial fraud detection")
 
-randomDigits = r"^c\d{5}$"
+randomDigits = r"^C\d{5,14}$"
 
 
-
-# Create a form for inputting transaction details
 st.header("Enter transaction details")
 
-# Input fields for the transaction form
+# Input fields for the form
 with st.form(key="transaction_form"):
  transaction_date = st.date_input("Transaction date", value=datetime.date.today())
  type = st.selectbox("Transaction type", [" --SELECT A TYPE-- ", "CASH-IN", "CASH-OUT", "DEBIT", "PAYMENT", "TRANSFER"])
@@ -31,11 +29,13 @@ with st.form(key="transaction_form"):
  submit = st.form_submit_button("Submit")
 
 
-# Button to submit the transaction
+# The submit botton is  where the json files gets sent to the API and the dashboard outputs the user results
 if submit:
-    if  amount >= 0 and oldbalanceOrg >= 0 and newbalanceOrig >= 0 and oldbalanceDest >= 0 and newbalanceDest >= 0 and nameOrig  and nameDest and re.match(randomDigits, nameOrig) and re.match(randomDigits, nameDest)and type != " --SELECT A TYPE-- ":
+    if ( amount >= 0 and oldbalanceOrg >= 0 and newbalanceOrig >= 0 and oldbalanceDest >= 0 and newbalanceDest >= 0 
+        and nameOrig  and nameDest and re.match(randomDigits, nameOrig) 
+        and re.match(randomDigits, nameDest)and type != " --SELECT A TYPE-- "):
         
-        # Display a summary of the transaction
+        # The JSON object that will be sent to the database 
         new_transaction = {
             "nameOrig": nameOrig,
             #"steps": steps,
@@ -49,7 +49,7 @@ if submit:
             #"isfraud": isfraud,
             #"isflaggedFraud": isflaggedFraud
         }
-        url = 'http://10.108.94.53:5000/api/transaction'  # Replace with your actual API endpoint
+        url = 'http://10.108.94.53:5000/api/transaction' 
         headers = {'Content-Type': 'application/json'}
 
         try:
@@ -60,7 +60,7 @@ if submit:
                 st.success('Data sent successfully!')
             else:
                 st.error(f"Failed to send data. Status code: {response.status_code}")
-                st.error(f"Response text: {response.text}")  # Log the response content for more debugging info
+                st.error(f"Response text: {response.text}")  # This will output the details of the error code 
 
         except requests.exceptions.RequestException as e:
             st.error(f"An error occurred: {str(e)}")
@@ -83,11 +83,20 @@ if submit:
         st.write(f"**Recipient's new balance:** ${newbalanceDest:.2f}")
         st.write(f"**Fraud status:** ${{Insert method}}")
         
-        # Optionally, add the transaction to a list or a database
-        # You could store these details in a database or process further
-        # transactions.append({"sender": sender, "receiver": receiver, "amount": amount, "date": transaction_date})
+        
     elif amount >= 0 and oldbalanceOrg >= 0 and newbalanceOrig >= 0 and oldbalanceDest >= 0 and newbalanceDest >= 0 and type == " --SELECT A TYPE-- ":
              st.error("Please select a transaction type")      
     else:
         st.error("Please fill in all fields with the appropriate values.")
 
+
+st.title("Web Page Navigation")
+
+# Button that opens an external web page
+st.markdown("""
+    <a href="https://www.google.com/" target="_blank">
+        <button style="background-color:green;color:white;padding:10px;border:none;border-radius:5px;">
+            Go to Google.com
+        </button>
+    </a>
+""", unsafe_allow_html=True)
