@@ -1,6 +1,7 @@
 # Shellhacks - Team Cafecito-105 Fall 2024
 
 ## Project Title: Machine Learning Fraud Detection 
+## Florida International Universty
 
 ### Team Members:
 	- Lorena A. Quincoso Lugones
