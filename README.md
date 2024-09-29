@@ -45,7 +45,7 @@ FinancialFraudDetection/        	# Root directory of the financial fraud detecti
 
 ### Model Instructions:
 
-3.1: Run the Jupyter Notebook under 'jupyter notebook - ML training and testing' folder in order to see the training/testing model on the dataset, and also to save the model. Save it under the folder 'models' (the streamlit app will crash otherwise).
+3.1: Run the Jupyter Notebook under 'Fraud_Model.ipynb' folder in order to see the training/testing model on the dataset.
 3.2: Access if possible to the Command Prompt (Commander from Anaconda Navigator is recommended), and type: 'pip install streamlit-folium' if you don't have the package installed already on your system.
 3.3: Through the same Prompt, 'cd' to the downloaded folder.
 3.4: Ensure the dependencies are installed by typing on the Prompt: 'pip install -r requirements.txt'.
