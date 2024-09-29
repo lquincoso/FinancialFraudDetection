@@ -10,7 +10,7 @@ CREATE TABLE Transactions (
     oldbalanceDest DECIMAL(10,2),
     newbalanceDest DECIMAL(10,2),
     isFraud BOOL,
-    isFlaggedFraud BOOL
+    isFlaggedFraud BOOL,
     effectiveDate DATETIME
 );
 
