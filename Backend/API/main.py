@@ -77,4 +77,4 @@ def createTransaction():
 
 if __name__ == "__main__":
     # change host to own IP address or remove for localhost
-    app.run(host='10.108.94.53', port=5000, debug=True, threaded=False)
+    app.run(port=5000, debug=True, threaded=False)
