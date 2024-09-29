@@ -13,61 +13,34 @@
 ## Code Directory Structure:
 The folder structure goes as follows:
 ```css
-FinancialFraudDetection/
-├── backend/
-│   ├── API/
-│   │   |── model/
-|	|	|	├── Fraud_Model.ipynb
-|	|	|	├── feat_columns.pkl
-│   |	|	├── fraud_model.pkl
-|	|	|	├── le_nameDest.pkl
-│   |	|	└── le_nameOrig.pkl
-|	|	|── .DS_Store
-|	|	|── db.py
-|	|	|── main.py
-|	|	|── predictions.py
-|	|	└── requirements.py	
-|	├── SQL/
-│   │   └── TransactionsTable.sql
-|	├── .DS_Store
-|	├── requirements.txt
-├── frontend/	
-│   └── dashboard.py
-├── .DS_Store
-├── .gitignore
-└── README.md
+FinancialFraudDetection/        	# Root directory of the financial fraud detection project
+├── backend/                    	# Directory for the backend logic and API for the project
+│   ├── API/                    	# Directory for API-related files and model handling
+│       ├── model/              	# Contains the trained fraud detection model and associated files
+|           ├── Fraud_Model.ipynb   	# Jupyter notebook used to train and analyze the fraud detection model
+|           ├── feat_columns.pkl    	# Pickle file storing the feature columns used for training
+│           ├── fraud_model.pkl     	# Pickle file storing the trained fraud detection model
+|           ├── le_nameDest.pkl     	# Pickle file storing the label encoder for destination names
+│           └── le_nameOrig.pkl     	# Pickle file storing the label encoder for origin names
+|       ├── db.py                  	# Script for managing database connections and functions
+|       ├── main.py                	# Main script to run the backend API server (routes with methods and helper methods)
+|       ├── predictions.py         	# Script handling model predictions methods
+│   ├── SQL/                       	# Contains SQL scripts for database setup
+│       └── TransactionsTable.sql  	# SQL file to create the structure of the transactions table
+|   ├── requirements.txt           	# List of dependencies required for the backend
+├── frontend/                      	# Contains files related to the frontend UI
+│   └── dashboard.py               	# Python file for creating the interface using strimlit
+├── .gitignore                     	# Specifies files to be ignored by Git version control
+└── README.md                      	# Documentation providing an overview and instructions for the project
 ```
-
-
-### Explanation:
-
-- "Folder: jupyter notebook - ML training and testing":
-
-	- "Current ML Model.ipynb": Contains comprehensive code for training and saving the model and column features for display.
-
-- "Folder: models": The folder containing the necessary Machine Learning algorithms that run for the "Predictive Model" dashboard feature.
-
-	- "feature_columns.pkl"
-
-	- "knn_model.pkl"
-
-- "Crime_Data_from_2020_to_Present.csv": The csv file that contains the crime data in L.A. from 2020-2024.
-
-- "dashboard.py":  The python file contains the code for the program to run.
-
-- "style.css": The CSS file that is used to change the font of the Streamlit dashboard.
-
-- "requirements.txt": The txt file entailing the necessary imports for the python file.
 
 
 ### User Guide:
 
-1. Import the files from the LACrimeDashboard into any prefered code editor like VSC or PyCharm.
-2. Ensure that all the necessary imports in "dashboard.py" are installed. Most importantly, ensure the following by typing on the terminal: 'pip install streamlit-folium' and 'pip install streamlit-option-menu'.
-3. Follow the Model Instructions (found below).
-4. To run the Streamlit app, open the IDE terminal and enter: "streamlit run dashboard.py". This will open a local host website in your browser.
-5. Since there is a lot of data, the program will take some time to load. Notably, the predictive model will take some time since it is a strenuous process. 
-6. Interact with the data!
+1. Start MySQL Server and run Backend/API/SQL/TransactionsTable.sql
+2. Install python dependencies (pip install) within the Backend/API/requirements.txt
+3. Run API file in the Backend/API/main.py
+4. Run interface file in the frontend/dashboard.py
 
 
 ### Model Instructions:
@@ -80,15 +53,9 @@ FinancialFraudDetection/
 
 ================================================================================================
 
-### Python Packages:
+### Technologies:
+ML Model: Jupyter Notebook, Random Forest Classifier, Anaconda
+API: Flask
+Database: MySQL
+Frontend: Strimlit
 
-streamlit
-pandas
-joblib
-scikit-learn
-imblearn
-StringIO
-requests
-altair
-dask.dataframe
-plotly.express
