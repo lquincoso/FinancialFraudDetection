@@ -1,7 +1,10 @@
-from sqlalchemy import create_engine, Column, Integer, String, DECIMAL
+from sqlalchemy import create_engine, Column, Integer, String, DECIMAL, DateTime
 from sqlalchemy.ext.declarative import declarative_base
 from sqlalchemy.orm import sessionmaker
+from datetime import datetime
 
+
+#Change the database URL to your own database URL
 DATABASE_URL = 'mysql+pymysql://Fabio:Fabio@10.111.37.148:3306/db'
 
 engine = create_engine(DATABASE_URL, echo=True)
@@ -10,7 +13,6 @@ Base = declarative_base()
 
 class Transaction(Base):
     __tablename__ = 'Transactions'
-
     steps = Column(Integer)
     type = Column(String(50))
     amount = Column(DECIMAL(10, 2))
@@ -22,12 +24,14 @@ class Transaction(Base):
     newbalanceDest = Column(DECIMAL(10, 2))
     isfraud = Column(Integer)
     isflaggedFraud = Column(Integer)
+    effectiveDate = Column(DateTime, default=datetime.now)
+
 
 # Create a session
 Session = sessionmaker(bind=engine)
 session = Session()
 
-# Query the first 10 records
+# get transaction by nameOrig
 def get_transaction_by_nameOrig(nameOrig):
     transaction = session.query(Transaction).filter(Transaction.nameOrig == nameOrig).first()
     if transaction:
@@ -36,9 +40,42 @@ def get_transaction_by_nameOrig(nameOrig):
         return transaction_dict
     return None
 
+# get transaction by the last 10 dates
+def get_transactions_in_blocks(pageNum):
+    pageNum = int(pageNum)
+    transactions_per_block = 10
+    offset_value = (pageNum - 1) * transactions_per_block
 
-# first_10_records = session.query(Transaction).limit(10).all()
+    # Query the transactions, order by date in descending order, apply limit and offset for pagination
+    transactions = (session.query(Transaction)
+                    .order_by(Transaction.effectiveDate.desc())  # Assuming Transaction.date is the timestamp column
+                    .limit(transactions_per_block)
+                    .offset(offset_value)
+                    .all())
+    
+    # Convert the result to a list of dictionaries
+    transactions_list = [{column.name: getattr(transaction, column.name) for column in transaction.__table__.columns}
+                         for transaction in transactions]
+    
+    return transactions_list
 
-# Print the records
-# for record in first_10_records:
-#     print(record.__dict__)
+
+# Create a new transaction
+def create_transaction(data):
+    session.rollback()
+    new_transaction = Transaction(
+        nameOrig=data.get('nameOrig'),
+        steps=data.get('steps'),
+        type=data.get('type'),
+        amount=data.get('amount'),
+        oldbalanceOrg=data.get('oldbalanceOrg'),
+        newbalanceOrig=data.get('newbalanceOrig'),
+        nameDest=data.get('nameDest'),
+        oldbalanceDest=data.get('oldbalanceDest'),
+        newbalanceDest=data.get('newbalanceDest'),
+        isfraud=data.get('isfraud'),
+        isflaggedFraud=data.get('isflaggedFraud'),
+    )
+    session.add(new_transaction)
+    session.commit()
+    return new_transaction

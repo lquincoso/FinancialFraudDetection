@@ -9,8 +9,9 @@ CREATE TABLE Transactions (
     nameDest VARCHAR(50) NOT NULL,
     oldbalanceDest DECIMAL(10,2),
     newbalanceDest DECIMAL(10,2),
-    isFraud tinyint(1),
-    isFlaggedFraud tinyint(1)
+    isFraud BOOL,
+    isFlaggedFraud BOOL
+    effectiveDate DATETIME
 );
 
 
